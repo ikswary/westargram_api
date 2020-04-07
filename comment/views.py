@@ -26,7 +26,7 @@ class CommentView(View):
             return JsonResponse({'messages': 'INVALID_USER'}, status=404)
         return HttpResponse(status=200)
 
-    def get(self,request, target=None):
+    def get(self, request, target=None):
         all_comments = []
         if target is None:
             comments = Comment.objects.all()
