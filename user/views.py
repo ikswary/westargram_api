@@ -13,6 +13,9 @@ class RegisterView(View):
     def post(self, request):
         data = json.loads(request.body)
         try:
+            if data['user_id'] == '' or data['password'] == '' or data['email'] == '':
+                return JsonResponse({'messages': 'EMPTY_ARGUMENT_PASSED'}, status=400)
+
             this_user = User(
                 user_id=data['user_id'],
                 password=data['password'],
@@ -20,9 +23,6 @@ class RegisterView(View):
             )
         except KeyError:
             return JsonResponse({'messages': 'ARGUMENT_NOT_PASSED'}, status=400)
-
-        if this_user.user_id == '' or this_user.password == '' or this_user.email == '':
-            return JsonResponse({'messages': 'EMPTY_ARGUMENT_PASSED'}, status=400)
 
         try:
             validate_email(this_user.email)
