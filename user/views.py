@@ -24,12 +24,14 @@ class RegisterView(View):
             return JsonResponse({'messages': 'EMPTY_ARGUMENT_PASSED'}, status=400)
 
         try:
-            validate_email(User.email)
+            validate_email(this_user.email)
         except ValidationError:
             return JsonResponse({'messages': 'INVALID_EMAIL'})
 
-        if not User.objects.filter(user_id=this_user.user_id).exists():
+        if User.objects.filter(user_id=this_user.user_id).exists():
             return JsonResponse({'messages': 'DUPLICATED_USER_ID'}, status=400)
 
         this_user.save()
         return HttpResponse(status=201)
+
+class LogInView(View):
