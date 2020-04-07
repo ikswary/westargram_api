@@ -4,5 +4,6 @@ from .views import WriteCommentView, ShowCommentView
 
 urlpatterns = [
     path('/show', ShowCommentView.as_view()),
+    path('/show/<str:target>', ShowCommentView.as_view()),
     path('', WriteCommentView.as_view()),
 ]
