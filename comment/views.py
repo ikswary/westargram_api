@@ -8,7 +8,7 @@ from .models import Comment
 from user.models import User
 
 
-class CommentWriteView(View):
+class WriteCommentView(View):
     def post(self, request):
         data = json.loads(request.body)
         try:
@@ -25,4 +25,16 @@ class CommentWriteView(View):
             return JsonResponse({'messages': 'INVALID_USER'}, status=404)
         return HttpResponse(status=200)
 
-class 
+
+class ShowCommentView(View):
+    def get(self, request):
+        all_comments = []
+        comments = Comment.objects.values()
+        if not len(comments):
+            return HttpResponse(status=404)
+
+        for each in comments:
+            all_comments.append(each['comment'])
+
+        return JsonResponse({'messages': all_comments}, status=200)
+
