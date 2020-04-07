@@ -9,7 +9,7 @@ from .models import Comment
 from user.models import User
 
 
-class WriteCommentView(View):
+class CommentView(View):
     def post(self, request):
         data = json.loads(request.body)
         try:
@@ -26,12 +26,10 @@ class WriteCommentView(View):
             return JsonResponse({'messages': 'INVALID_USER'}, status=404)
         return HttpResponse(status=200)
 
-
-class ShowCommentView(View):
-    def get(self, request, target=None):
+    def get(self,request, target=None):
         all_comments = []
         if target is None:
-            comments = Comment.objects.values()
+            comments = Comment.objects.all()
         elif target is not None:
             target_user = get_object_or_404(User, user_id=target)
             comments = Comment.objects.filter(user_id=target_user.id)
@@ -40,6 +38,5 @@ class ShowCommentView(View):
 
         print(comments)
         for each in comments:
-            print(each)
             all_comments.append(each.comment)
         return JsonResponse({'messages': all_comments}, status=200)
