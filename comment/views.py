@@ -16,7 +16,7 @@ class CommentWriteView(View):
                 return JsonResponse({'messages': 'EMPTY_ARGUMENT_PASSED'}, status=400)
 
             Comment(
-                user=User.objects.get(data['user_id']),
+                user=User.objects.get(user_id=data['user_id']),
                 comment=data['comment']
             ).save()
         except KeyError:
@@ -24,3 +24,5 @@ class CommentWriteView(View):
         except ObjectDoesNotExist:
             return JsonResponse({'messages': 'INVALID_USER'}, status=404)
         return HttpResponse(status=200)
+
+class 
