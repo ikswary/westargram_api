@@ -36,7 +36,6 @@ class CommentView(View):
         if not len(comments):
             return HttpResponse(status=404)
 
-        print(comments)
         for each in comments:
             all_comments.append(each.comment)
         return JsonResponse({'messages': all_comments}, status=200)
